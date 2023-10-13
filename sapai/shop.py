@@ -40,6 +40,9 @@ for key, value in food_tier_lookup.items():
         if temp_key >= key:
             temp_value += value
 
+# Generates a data structure that tells you the probability of any given pet on any given turn to appear in a slot
+# Example: turn_prob_pets_std[1]["pet-ant"] returns the probability of an Ant appearing in a given slot turn 1
+# std = standard pack, exp = expansion pack
 turn_prob_pets_std = {}
 turn_prob_pets_exp = {}
 for i in np.arange(0, 12):
@@ -63,6 +66,8 @@ for key, value in data["pets"].items():
             temp_exp = temp_std
             turn_prob_pets_exp[temp_turn][key] = temp_exp
 
+# Generates a data structure that tells you the probability of any given food on any given turn to appear in a slot
+# Example: turn_prob_foods_std[1]["food-apple"] returns the probability of an apple appearing in a given slot in turn 1
 turn_prob_foods_std = {}
 turn_prob_foods_exp = {}
 for i in np.arange(0, 12):
