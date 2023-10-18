@@ -885,8 +885,10 @@ def SummonPet(apet, apet_idx, teams, te=None, te_idx=None, fixed_targets=None):
         raise Exception(apet.ability["effect"]["team"])
 
     n = 1
-    if apet.name == "pet-sheep":
+    if apet.name == "pet-sheep" or (apet.name == "pet-rat" and apet.level == 2):
         n = 2
+    elif apet.name == "pet-rat" and apet.level == 3:
+        n = 3
     elif apet.name == "pet-rooster":
         n = apet.level
 
