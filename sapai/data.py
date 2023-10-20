@@ -51,10 +51,6 @@ After new patch updates:
 
 """
 
-# %%
-from sapai.battle import battle_phase_attack
-
-
 data = {
     "pets": {
         "pet-ant": {
@@ -70,13 +66,13 @@ data = {
             "baseHealth": 2,
             "packs": ["StandardPack", "ExpansionPack1"],
             "level1Ability": {
-                "description": "Faint: Give a random friend +2/+2",
+                "description": "Faint: Give a random friend +1/+1",
                 "trigger": "Faint",
                 "triggeredBy": {"kind": "Self"},
                 "effect": {
                     "kind": "ModifyStats",
-                    "attackAmount": 2,
-                    "healthAmount": 2,
+                    "attackAmount": 1,
+                    "healthAmount": 1,
                     "target": {"kind": "RandomFriend", "n": 1},
                     "untilEndOfBattle": False,
                 },
@@ -5917,38 +5913,35 @@ data = {
             "baseHealth": 8,
             "packs": ["StandardPack", "ExpansionPack1"],
             "level1Ability": {
-                "description": "Eats shop food: Give 2 random friends +1/+1.",
+                "description": "Eats shop food: Give 3 random friends +1 attack.",
                 "trigger": "EatsShopFood",
                 "triggeredBy": {"kind": "Self"},
                 "effect": {
                     "kind": "ModifyStats",
-                    "target": {"kind": "RandomFriend", "n": 2},
+                    "target": {"kind": "RandomFriend", "n": 3},
                     "attackAmount": 1,
-                    "healthAmount": 1,
                     "untilEndOfBattle": False,
                 },
             },
             "level2Ability": {
-                "description": "Eats shop food: Give 2 random friends +2/+2.",
+                "description": "Eats shop food: Give 3 random friends +2 attack.",
                 "trigger": "EatsShopFood",
                 "triggeredBy": {"kind": "Self"},
                 "effect": {
                     "kind": "ModifyStats",
-                    "target": {"kind": "RandomFriend", "n": 2},
+                    "target": {"kind": "RandomFriend", "n": 3},
                     "attackAmount": 2,
-                    "healthAmount": 2,
                     "untilEndOfBattle": False,
                 },
             },
             "level3Ability": {
-                "description": "Eats shop food: Give 2 random friends +3/+3.",
+                "description": "Eats shop food: Give 3 random friends +3 attack.",
                 "trigger": "EatsShopFood",
                 "triggeredBy": {"kind": "Self"},
                 "effect": {
                     "kind": "ModifyStats",
-                    "target": {"kind": "RandomFriend", "n": 2},
+                    "target": {"kind": "RandomFriend", "n": 3},
                     "attackAmount": 3,
-                    "healthAmount": 3,
                     "untilEndOfBattle": False,
                 },
             },
@@ -6941,6 +6934,19 @@ data = {
             "baseAttack": "?",
             "baseHealth": "?",
         },
+        "pet-bee": {
+            "name": "Bee",
+            "id": "pet-bee",
+            "image": {
+                "source": "noto-emoji",
+                "commit": "e022fd6573782431ac9a65b520376b57511c31cd",
+                "unicodeCodePoint": "🐝",
+            },
+            "packs": ["StandardPack", "ExpansionPack1"],
+            "tier": "Summoned",
+            "baseAttack": 1,
+            "baseHealth": 1,
+        },
     },
     "foods": {
         "food-apple": {
@@ -7807,7 +7813,7 @@ data = {
                 "effect": {
                     "kind": "ModifyStats",
                     "target": {"kind": "EachShopAnimal", "includingFuture": True},
-                    "attackAmount": 2,
+                    "attackAmount": 1,
                     "healthAmount": 1,
                     "untilEndOfBattle": False,
                 },

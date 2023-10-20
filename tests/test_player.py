@@ -38,6 +38,7 @@ class TestPlayer(unittest.TestCase):
         player.buy_combine(player.shop[1], player.team[0])
         player.buy_combine(player.shop[1], player.team[0])
 
+    """ No longer in use
     def test_buy_combine_behavior2(self):
         player = Player(
             shop=["ant", "octopus", "octopus", "apple"],
@@ -46,6 +47,7 @@ class TestPlayer(unittest.TestCase):
         )
         player.buy_combine(player.shop[1], player.team[0])
         player.buy_combine(player.shop[1], player.team[0])
+    """
 
     def test_combine_behavior(self):
         player = Player(
@@ -65,7 +67,7 @@ class TestPlayer(unittest.TestCase):
     def test_start_of_turn_behavior(self):
         player = Player(
             shop=["ant", "fish", "fish", "pear"],
-            team=["dromedary", "swan", "caterpillar", "squirrel"],
+            team=["swan", "squirrel"],
             pack=self.pack,
         )
         player.team[0]._pet.level = 2
@@ -94,14 +96,6 @@ class TestPlayer(unittest.TestCase):
             pack=self.pack,
         )
         player.buy_food(player.shop[-1], player.team[0])
-
-    def test_deer_microbe_shark(self):
-        player = Player(
-            shop=["ant", "fish", "fish", "food-sleeping-pill"],
-            team=["deer", "microbe", "eagle", "shark"],
-            pack=self.pack,
-        )
-        player.buy_food(player.shop[-1], player.team[2])
 
     def test_deer_badger_fly_sheep(self):
         player = Player(

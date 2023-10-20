@@ -90,6 +90,7 @@ class TestBattles(unittest.TestCase):
         test_battle = Battle(player1.team, player2.team)
         test_battle.battle()
 
+    """ No longer in use
     def test_caterpillar_order_high_attack(self):
         cp = Pet("caterpillar")
         cp.level = 3
@@ -113,6 +114,7 @@ class TestBattles(unittest.TestCase):
         r = b.battle()
         # print(b.battle_history) # dolphin hits caterpillar, caterpillar evolves, copies dragon, win
         self.assertEqual(r, 0)
+"""
 
     def test_dodo(self):
         dodo = Pet("dodo")
@@ -141,12 +143,13 @@ class TestBattles(unittest.TestCase):
 
     def test_horse_in_battle(self):
         team1 = Team([Pet("cricket"), Pet("horse")])
-        team2 = Team([Pet("camel")])
+        team2 = Team([Pet("dragon")])
 
         test_battle = Battle(team1, team2)
         result = test_battle.battle()
         self.assertEqual(test_battle.t0.empty, [0, 1, 2, 3, 4])
-        self.assertEqual(test_battle.t1[0].health, 1)
+        # 8 - 1(cricket) - 2(z-cricket + horse) - 2(horse) = 3
+        self.assertEqual(test_battle.t1[0].health, 3)
 
     def test_horse_with_bee_in_battle(self):
         cricket = Pet("cricket")

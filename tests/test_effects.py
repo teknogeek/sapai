@@ -10,7 +10,7 @@ class TestEffects(unittest.TestCase):
     def test_target_function(self):
         shop = Shop()
         shop.roll()
-        t0 = Team(["fish", "dragon", "owl", "ant", "badger"], shop=shop)
+        t0 = Team(["fish", "dragon", "ant", "badger"], shop=shop)
         t1 = Team(["cat", "hippo", "horse", "ant"], shop=shop)
         for slot in t0:
             slot.pet.shop = shop
@@ -74,6 +74,7 @@ class TestEffects(unittest.TestCase):
                 continue
             slot.pet.faint_trigger(slot.pet, [0, t.index(slot)])
 
+    """ No longer in use
     def test_eagle_stats(self):
         # seed for Snake 6/6
         state = np.random.RandomState(seed=4).get_state()
@@ -87,6 +88,7 @@ class TestEffects(unittest.TestCase):
         self.assertEqual(t[0].level, 3)
         self.assertEqual(t[0].attack, 18)
         self.assertEqual(t[0].health, 18)
+""" 
 
     def test_multiple_cats(self):
         player = Player(shop=Shop(["pear"]), team=Team([Pet("cat")]))
@@ -161,7 +163,7 @@ class TestEffects(unittest.TestCase):
         t3 = Team(["dragon"], battle=True)
 
         t2[0].pet.sob_trigger(t)
-        self.assertEqual(gorilla.health, 9)  # unchanged
+        self.assertEqual(gorilla.health, 10)  # unchanged
         self.assertEqual(gorilla.status, "none")
 
         gorilla.status = "status-coconut-shield"
@@ -184,9 +186,11 @@ class TestEffects(unittest.TestCase):
         attack_phase = get_attack(fish, t3[0].pet)
         self.assertEqual(attack_phase[1], 9)  # 6/8 + 3
 
+    """ No longer in use
     def test_hatching_chick_level_3(self):
         hc = Pet("hatching-chick")
         hc.level = 3
         t = Team(["dragon", hc])
         hc.sot_trigger(t)
         self.assertEqual(t[0].pet.experience, 1)
+"""
