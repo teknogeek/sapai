@@ -54,7 +54,7 @@ class Player:
         self,
         shop=None,
         team=None,
-        lives=10,
+        lives=5,
         default_gold=10,
         gold=10,
         turn=1,
@@ -519,6 +519,9 @@ class Player:
 
         if len(unique) != len(self.team):
             raise Exception(f"Cannot input duplicate indices to reorder: {idx}")
+
+        if any(self.team[x].obj is None for x in idx):
+            raise Exception(f"Cannot move empty slot")
 
         self.team = Team([self.team[x] for x in idx], seed_state=self.team.seed_state)
 

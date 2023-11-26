@@ -31,7 +31,7 @@ SOFTWARE.
 Please note that these effects are from THIS VERSION XXX
 
 In addition, there will be a new patch coming soon that will require singificant
-modifications to these overall pet behaviors. 
+modifications to these overall pet behaviors.
 
 
 After new patch updates:
@@ -39,11 +39,11 @@ After new patch updates:
   1. ammount -> amount
   2. Changed rabbit trigger from EatsShopFood to BuyFood
   3. Changed milk from "?" to 1-2 to multiply by cow level
-  4. There isn't a cost in every food and pet item. Only for pill. 
-  5. Dodo is copyattack without any indication that it should be additive and 
+  4. There isn't a cost in every food and pet item. Only for pill.
+  5. Dodo is copyattack without any indication that it should be additive and
       is not a copy operation
-  6. Bat target RandomEnergy -> NonWeakEnemy. Bat does not apply weak randomly. 
-      It only applies weak to an enemy that is not already weak. 
+  6. Bat target RandomEnergy -> NonWeakEnemy. Bat does not apply weak randomly.
+      It only applies weak to an enemy that is not already weak.
   7. Update croc to 8,16,24
   8. Changed cat trigger from Hurt -> "PurchaseFood"
   9. Updating values to v0.16 for whale, swan, monkey, snail, and duck
@@ -1004,29 +1004,30 @@ data = {
             "id": "pet-mouse",
             "image": {
                 "source": "noto-emoji",
-                #TODO: "unicode": "1f42d",
+                "commit": "e022fd6573782431ac9a65b520376b57511c31cd",
+                "unicodeCodePoint": "🐁",
             },
             "tier": 1,
-            "baseAttack": 1,
+            "baseAttack": 3,
             "baseHealth": 2,
             "packs": ["StandardPack"],
             "level1Ability": {
-                "description": "Sell: Stock one free Apple",
+                "description": "Sell: Stock one 1-gold Apple",
                 "trigger": "Sell",
                 "triggeredBy": {"kind": "Self"},
-                "effect": {"kind": "GainGold", "amount": 1}, #TODO: update ability
+                "effect": {"kind": "SpawnFood", "food": "food-apple", "cost": 1},
             },
             "level2Ability": {
-                "description": "Sell: Stock one free Better Apple",
+                "description": "Sell: Stock one 1-gold Better Apple",
                 "trigger": "Sell",
                 "triggeredBy": {"kind": "Self"},
-                "effect": {"kind": "GainGold", "amount": 1}, #TODO: update ability
-                },
+                "effect": {"kind": "SpawnFood", "food": "food-better-apple", "cost": 1},
+            },
             "level3Ability": {
-                "description": "Sell: Stock one free Best Apple",
+                "description": "Sell: Stock one 1-gold Best Apple",
                 "trigger": "Sell",
                 "triggeredBy": {"kind": "Self"},
-                "effect": {"kind": "GainGold", "amount": 1}, #TODO: update ability
+                "effect": {"kind": "SpawnFood", "food": "food-best-apple", "cost": 1},
             },
             "probabilities": [
                 {
@@ -5388,47 +5389,77 @@ data = {
                 "commit": "e022fd6573782431ac9a65b520376b57511c31cd",
                 "unicodeCodePoint": "🪱",
             },
-            "tier": 4,
+            "tier": 2,
             "baseAttack": 1,
             "baseHealth": 3,
             "packs": ["StandardPack", "ExpansionPack1"],
             "level1Ability": {
-                "description": "Eats shop food: Gain +1/+1", #TODO update it
-                "trigger": "EatsShopFood",
-                "triggeredBy": {"kind": "Self"},
-                "effect": {
-                    "kind": "ModifyStats",
-                    "attackAmount": 1,
-                    "healthAmount": 1,
-                    "target": {"kind": "Self"},
-                    "untilEndOfBattle": False,
-                },
+                "description": "Start of turn: Stock one 2-gold Apple",
+                "trigger": "StartOfTurn",
+                "triggeredBy": {"kind": "Player"},
+                "effect": {"kind": "SpawnFood", "food": "food-apple", "cost": 2},
             },
             "level2Ability": {
-                "description": "Eats shop food: Gain +2/+2",
-                "trigger": "EatsShopFood",
-                "triggeredBy": {"kind": "Self"},
-                "effect": {
-                    "kind": "ModifyStats",
-                    "attackAmount": 2,
-                    "healthAmount": 2,
-                    "target": {"kind": "Self"},
-                    "untilEndOfBattle": False,
+                "description": "Start of turn: Stock one 2-gold Better Apple",
+                "trigger": "StartOfTurn",
+                "triggeredBy": {"kind": "Player"},
+                "effect": {"kind": "SpawnFood", "food": "food-better-apple", "cost": 2},
                 },
-            },
             "level3Ability": {
-                "description": "Eats shop food: Gain +3/+3",
-                "trigger": "EatsShopFood",
-                "triggeredBy": {"kind": "Self"},
-                "effect": {
-                    "kind": "ModifyStats",
-                    "attackAmount": 3,
-                    "healthAmount": 3,
-                    "target": {"kind": "Self"},
-                    "untilEndOfBattle": False,
-                },
+                "description": "Start of turn: Stock one 2-gold Best Apple",
+                "trigger": "StartOfTurn",
+                "triggeredBy": {"kind": "Player"},
+                "effect": {"kind": "SpawnFood", "food": "food-best-apple", "cost": 2},
             },
             "probabilities": [
+                {
+                    "kind": "shop",
+                    "turn": "turn-3",
+                    "perShop": {
+                        "StandardPack": 0.14973028138212574,
+                        "ExpansionPack1": 0.14973028138212574,
+                    },
+                    "perSlot": {
+                        "StandardPack": 0.05000000000000000,
+                        "ExpansionPack1": 0.05263157894736842,
+                    },
+                },
+                {
+                    "kind": "shop",
+                    "turn": "turn-4",
+                    "perShop": {
+                        "StandardPack": 0.14973028138212574,
+                        "ExpansionPack1": 0.14973028138212574,
+                    },
+                    "perSlot": {
+                        "StandardPack": 0.05000000000000000,
+                        "ExpansionPack1": 0.05263157894736842,
+                    },
+                },
+                {
+                    "kind": "shop",
+                    "turn": "turn-5",
+                    "perShop": {
+                        "StandardPack": 0.12681358024691358,
+                        "ExpansionPack1": 0.12681358024691358,
+                    },
+                    "perSlot": {
+                        "StandardPack": 0.03333333333333333,
+                        "ExpansionPack1": 0.03333333333333333,
+                    },
+                },
+                {
+                    "kind": "shop",
+                    "turn": "turn-6",
+                    "perShop": {
+                        "StandardPack": 0.12681358024691358,
+                        "ExpansionPack1": 0.12681358024691358,
+                    },
+                    "perSlot": {
+                        "StandardPack": 0.03333333333333333,
+                        "ExpansionPack1": 0.03333333333333333,
+                    },
+                },
                 {
                     "kind": "shop",
                     "turn": "turn-7",
@@ -5491,19 +5522,13 @@ data = {
                 },
                 {
                     "kind": "levelup",
-                    "turn": "turn-5",
-                    "perSlot": {
-                        "StandardPack": 0.10000000000000000,
-                        "ExpansionPack1": 0.09090909090909091,
-                    },
+                    "turn": "turn-1",
+                    "perSlot": {"StandardPack": 0.1, "ExpansionPack1": 0.1},
                 },
                 {
                     "kind": "levelup",
-                    "turn": "turn-6",
-                    "perSlot": {
-                        "StandardPack": 0.10000000000000000,
-                        "ExpansionPack1": 0.09090909090909091,
-                    },
+                    "turn": "turn-2",
+                    "perSlot": {"StandardPack": 0.1, "ExpansionPack1": 0.1},
                 },
             ],
         },

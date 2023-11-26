@@ -445,6 +445,7 @@ class Shop(SAPList):
             ### Max slots already reached so cannot be added
             return
 
+        # print(f'Appending to shop: {obj}')
         add_slot = ShopSlot(
             obj, pack=self.pack, turn=self.turn, seed_state=self.seed_state
         )

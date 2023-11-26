@@ -16,36 +16,36 @@ This module implements all effects in the game. API description is as follows:
     apet: Pet
         Activating Pet. Must include the attached shop or player when necessary.
     apet_idx: list
-        List of two indices for the [team_list_idx, team_idx] from which the 
+        List of two indices for the [team_list_idx, team_idx] from which the
         activating pet was called from
     teams: list
-        List of Team objects. Either one or two teams. 
+        List of Team objects. Either one or two teams.
     te: Pet
         Triggering pet. If a pet has trigger the action. For example, if a horse
         is on the team and then an animal is summoned. The summoned animal would
-        be the triggering pet. 
+        be the triggering pet.
     te_idx: list
-        List of two indices for the [team_list_idx, team_idx] from which the 
+        List of two indices for the [team_list_idx, team_idx] from which the
         triggering entity exists. This is only used for SummonPet in the case
-        of a Fly summoning in the position of the fainted pet, which is the 
+        of a Fly summoning in the position of the fainted pet, which is the
         triggering entity. In all other cases, te_idx should not be used as it
-        is unnecessary. 
+        is unnecessary.
     fixed_targets: list of pets
         If a fixed target is desired for the effect. For common use, this is not
-        required. It is useful in the case that certain outcomees are being 
-        tested. It is also useful in the case that all outcomes due to 
-        randomness are exactly exactly considered rather than having to rely on bootstrapped probabilities. This leads to significantly improved 
-        efficiency for training by database purposes. 
+        required. It is useful in the case that certain outcomees are being
+        tested. It is also useful in the case that all outcomes due to
+        randomness are exactly exactly considered rather than having to rely on bootstrapped probabilities. This leads to significantly improved
+        efficiency for training by database purposes.
 
     Returns
     -------
     targets: list
         List of pets that have been targeted by the effect of the ability
     possible: list of lists
-        List of lists of all possible targets that could also be targeted. 
-        If there is an element of randomness in the outcome, all possible 
+        List of lists of all possible targets that could also be targeted.
+        If there is an element of randomness in the outcome, all possible
         targets, and potentially all possible combinations of targets, is also
-        returned. 
+        returned.
 
 """
 
@@ -747,16 +747,41 @@ def RefillShops(apet, apet_idx, teams, te=None, te_idx=None, fixed_targets=None)
 
     if apet.name != "pet-cow":
         raise Exception("Only cow implemented for RefillShops")
-    shop = apet.shop
+
+    shop = apet.player.shop
     level = apet.level
     targets = []
+
     for slot in shop:
         if slot.slot_type == "food":
             temp_food = Food("milk")
             temp_food.attack *= level
             temp_food.health *= level
-            slot.item = temp_food
+            slot.obj = temp_food
             targets.append(slot)
+
+    return targets, [targets]
+
+
+def SpawnFood(apet, apet_idx, teams, te=None, te_idx=None, fixed_targets=None):
+    """
+    For mouse and worm right now
+    """
+    fixed_targets = fixed_targets or []
+
+    shop = apet.player.shop
+    effect = apet.ability["effect"]
+    food_name = effect["food"]
+
+    targets = []
+    new_food = Food(food_name)
+    if "cost" in effect:
+        new_food.cost = effect["cost"]
+
+    shop.append(new_food)
+    new_slot = shop.slots[shop.index(new_food)]
+    targets.append(new_slot)
+
     return targets, [targets]
 
 
@@ -1100,6 +1125,8 @@ def TransferStats(apet, apet_idx, teams, te=None, te_idx=None, fixed_targets=Non
                 raise Exception("This should not be possible")
         else:
             temp_from = get_target(apet, apet_idx, teams, te=te, get_from=True)
+            if len(temp_from[0]) == 0:
+                continue
             ### Randomness not needed as outcome will be the same for all pets
             ###   that have this ability
             temp_from = temp_from[0][0]
@@ -1114,7 +1141,7 @@ def TransferStats(apet, apet_idx, teams, te=None, te_idx=None, fixed_targets=Non
 def DiscountFood(apet, apet_idx, teams, te=None, te_idx=None, fixed_targets=None):
     fixed_targets = fixed_targets or []
 
-    shop = apet.shop
+    shop = apet.player.shop
     if shop is None:
         raise Exception("No shop found to discount food")
     amount = apet.ability["effect"]["amount"]
