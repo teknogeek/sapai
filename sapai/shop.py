@@ -119,7 +119,7 @@ class Shop(SAPList):
         else:
             self.rs = MockRandomState()
 
-        self.max_slots = 7
+        self.max_slots = 9
         self.turn = turn
         self.pack = pack
         self.shop_attack = shop_attack  ### Keep track of can/chicken stats
